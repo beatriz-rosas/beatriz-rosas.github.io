@@ -6,51 +6,6 @@
   <title>Métricas académicas</title>
   <link rel="stylesheet" href="style.css">
 </head>
-  <script>
-fetch("data/scholar.json")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("No se pudo cargar scholar.json");
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log("JSON cargado:", data);
-
-    const barsContainer = document.getElementById("bars");
-    const yearsContainer = document.getElementById("years");
-
-    if (!barsContainer) {
-      console.error("No existe el contenedor #bars");
-      return;
-    }
-
-    const values = data.citations_by_year.map(d => d.cites);
-    const maxValue = Math.max(...values, 1);
-
-    data.citations_by_year.forEach(item => {
-      const barWrap = document.createElement("div");
-      barWrap.className = "bar-wrap";
-
-      const bar = document.createElement("div");
-      bar.className = "bar";
-      bar.style.height = ((item.cites / maxValue) * 180) + "px";
-
-      barWrap.appendChild(bar);
-      barsContainer.appendChild(barWrap);
-
-      if (yearsContainer) {
-        const year = document.createElement("div");
-        year.className = "year";
-        year.textContent = item.year;
-        yearsContainer.appendChild(year);
-      }
-    });
-  })
-  .catch(error => {
-    console.error("Error:", error);
-  });
-</script>
 <body>
   <div class="gs-card">
     <div class="gs-head">
@@ -63,7 +18,7 @@ fetch("data/scholar.json")
         <tr>
           <th></th>
           <th>Total</th>
-          <th>Desde 2020</th>
+          <th>Desde 2021</th>
         </tr>
       </thead>
       <tbody>
@@ -86,27 +41,31 @@ fetch("data/scholar.json")
     </table>
 
     <div class="gs-chart-area">
- <div class="bars" id="bars">
-  <div class="bar-wrap"><div class="bar" style="height:120px;"></div></div>
-</div>
+      <div class="bars" id="bars"></div>
       <div class="years" id="years"></div>
     </div>
   </div>
 
   <script>
     fetch('data/scholar.json')
-      .then(r => r.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('No se pudo cargar scholar.json');
+        }
+        return response.json();
+      })
       .then(data => {
         document.getElementById('gsLink').href = data.profile_url;
         document.getElementById('gsCitTotal').textContent = data.citations.total;
-        document.getElementById('gsCitSince').textContent = data.citations.since2020;
+        document.getElementById('gsCitSince').textContent = data.citations.since2021;
         document.getElementById('gsHTotal').textContent = data.h_index.total;
-        document.getElementById('gsHSince').textContent = data.h_index.since2020;
+        document.getElementById('gsHSince').textContent = data.h_index.since2021;
         document.getElementById('gsI10Total').textContent = data.i10_index.total;
-        document.getElementById('gsI10Since').textContent = data.i10_index.since2020;
+        document.getElementById('gsI10Since').textContent = data.i10_index.since2021;
 
         const bars = document.getElementById('bars');
         const years = document.getElementById('years');
+
         const max = Math.max(...data.citations_by_year.map(d => d.cites), 1);
 
         data.citations_by_year.forEach(d => {
@@ -126,6 +85,9 @@ fetch("data/scholar.json")
           year.textContent = d.year;
           years.appendChild(year);
         });
+      })
+      .catch(error => {
+        console.error('Error:', error);
       });
   </script>
 </body>
