@@ -6,6 +6,51 @@
   <title>Métricas académicas</title>
   <link rel="stylesheet" href="style.css">
 </head>
+  <script>
+fetch("data/scholar.json")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("No se pudo cargar scholar.json");
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log("JSON cargado:", data);
+
+    const barsContainer = document.getElementById("bars");
+    const yearsContainer = document.getElementById("years");
+
+    if (!barsContainer) {
+      console.error("No existe el contenedor #bars");
+      return;
+    }
+
+    const values = data.citations_by_year.map(d => d.cites);
+    const maxValue = Math.max(...values, 1);
+
+    data.citations_by_year.forEach(item => {
+      const barWrap = document.createElement("div");
+      barWrap.className = "bar-wrap";
+
+      const bar = document.createElement("div");
+      bar.className = "bar";
+      bar.style.height = ((item.cites / maxValue) * 180) + "px";
+
+      barWrap.appendChild(bar);
+      barsContainer.appendChild(barWrap);
+
+      if (yearsContainer) {
+        const year = document.createElement("div");
+        year.className = "year";
+        year.textContent = item.year;
+        yearsContainer.appendChild(year);
+      }
+    });
+  })
+  .catch(error => {
+    console.error("Error:", error);
+  });
+</script>
 <body>
   <div class="gs-card">
     <div class="gs-head">
