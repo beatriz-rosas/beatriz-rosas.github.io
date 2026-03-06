@@ -1,3 +1,85 @@
-index.html
-style.css
-data/scholar.json
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Métricas académicas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="gs-card">
+    <div class="gs-head">
+      <div class="gs-title">Citado por</div>
+      <a class="gs-cta" id="gsLink" href="#" target="_blank" rel="noopener">VER TODO</a>
+    </div>
+
+    <table class="gs-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Total</th>
+          <th>Desde 2020</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Citas</td>
+          <td id="gsCitTotal">—</td>
+          <td id="gsCitSince">—</td>
+        </tr>
+        <tr>
+          <td>Índice h</td>
+          <td id="gsHTotal">—</td>
+          <td id="gsHSince">—</td>
+        </tr>
+        <tr>
+          <td>Índice i10</td>
+          <td id="gsI10Total">—</td>
+          <td id="gsI10Since">—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="gs-chart-area">
+      <div class="bars" id="bars"></div>
+      <div class="years" id="years"></div>
+    </div>
+  </div>
+
+  <script>
+    fetch('data/scholar.json')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('gsLink').href = data.profile_url;
+        document.getElementById('gsCitTotal').textContent = data.citations.total;
+        document.getElementById('gsCitSince').textContent = data.citations.since2020;
+        document.getElementById('gsHTotal').textContent = data.h_index.total;
+        document.getElementById('gsHSince').textContent = data.h_index.since2020;
+        document.getElementById('gsI10Total').textContent = data.i10_index.total;
+        document.getElementById('gsI10Since').textContent = data.i10_index.since2020;
+
+        const bars = document.getElementById('bars');
+        const years = document.getElementById('years');
+        const max = Math.max(...data.citations_by_year.map(d => d.cites), 1);
+
+        data.citations_by_year.forEach(d => {
+          const barWrap = document.createElement('div');
+          barWrap.className = 'bar-wrap';
+
+          const bar = document.createElement('div');
+          bar.className = 'bar';
+          bar.style.height = `${(d.cites / max) * 180}px`;
+          bar.title = `${d.year}: ${d.cites}`;
+
+          barWrap.appendChild(bar);
+          bars.appendChild(barWrap);
+
+          const year = document.createElement('div');
+          year.className = 'year';
+          year.textContent = d.year;
+          years.appendChild(year);
+        });
+      });
+  </script>
+</body>
+</html>
