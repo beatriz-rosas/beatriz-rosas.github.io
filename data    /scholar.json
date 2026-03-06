@@ -1,1 +1,24 @@
 
+{
+  "profile_url": "https://scholar.google.com/citations?user=TU_ID",
+  "citations": {
+    "total": 2526,
+    "since2020": 2108
+  },
+  "h_index": {
+    "total": 21,
+    "since2020": 20
+  },
+  "i10_index": {
+    "total": 60,
+    "since2020": 43
+  },
+  "citations_by_year": [
+    { "year": 2019, "cites": 140 },
+    { "year": 2020, "cites": 160 },
+    { "year": 2021, "cites": 240 },
+    { "year": 2022, "cites": 330 },
+    { "year": 2023, "cites": 560 },
+    { "year": 2024, "cites": 600 }
+  ]
+}
