@@ -1,24 +1,25 @@
-
 {
   "profile_url": "https://scholar.google.es/citations?user=zyxmL44AAAAJ&hl=es&oi=ao",
   "citations": {
-    "total": 2526,
-    "since2020": 2108
+    "total": 73,
+    "since2021": 53
   },
   "h_index": {
-    "total": 21,
-    "since2020": 20
+    "total": 3,
+    "since2021": 3
   },
   "i10_index": {
-    "total": 60,
-    "since2020": 43
+    "total": 2,
+    "since2021": 2
   },
   "citations_by_year": [
-    { "year": 2019, "cites": 140 },
-    { "year": 2020, "cites": 160 },
-    { "year": 2021, "cites": 240 },
-    { "year": 2022, "cites": 330 },
-    { "year": 2023, "cites": 560 },
-    { "year": 2024, "cites": 600 }
+    { "year": 2019, "cites": 2 },
+    { "year": 2020, "cites": 8 },
+    { "year": 2021, "cites": 7 },
+    { "year": 2022, "cites": 9 },
+    { "year": 2023, "cites": 13 },
+    { "year": 2024, "cites": 10 },
+    { "year": 2025, "cites": 10 },
+    { "year": 2026, "cites": 2 }
   ]
 }
