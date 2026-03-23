@@ -23,3 +23,98 @@
     { "year": 2026, "cites": 4 }
   ]
 }
+.gs-chart-area {
+  margin-top: 10px;
+}
+
+.gs-plot {
+  position: relative;
+  height: 200px;
+  margin-right: 50px;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.gs-grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #d9d9d9;
+}
+
+.gs-grid-top {
+  top: 0;
+}
+
+.gs-grid-mid {
+  top: 50%;
+}
+
+.gs-grid-bottom {
+  bottom: 0;
+}
+
+.gs-ylabels {
+  position: absolute;
+  top: 0;
+  right: -45px;
+  height: 100%;
+  width: 35px;
+  color: #6f6f6f;
+  font-size: 12px;
+}
+
+.gs-ylabels span {
+  position: absolute;
+  right: 0;
+}
+
+#yTop {
+  top: -8px;
+}
+
+#yMid {
+  top: calc(50% - 8px);
+}
+
+#yBottom {
+  bottom: -8px;
+}
+
+.bars {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding-bottom: 4px;
+}
+
+.bar-wrap {
+  width: 26px;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.bar {
+  width: 26px;
+  background: #7a7a7a;
+  display: block;
+}
+
+.years {
+  display: flex;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.year {
+  width: 26px;
+  text-align: center;
+  font-size: 12px;
+  color: #6f6f6f;
+}
