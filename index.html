@@ -40,11 +40,23 @@
       </tbody>
     </table>
 
-    <div class="gs-chart-area">
-      <div class="bars" id="bars"></div>
-      <div class="years" id="years"></div>
+<div class="gs-chart-area">
+  <div class="gs-plot">
+    <div class="gs-grid gs-grid-top"></div>
+    <div class="gs-grid gs-grid-mid"></div>
+    <div class="gs-grid gs-grid-bottom"></div>
+
+    <div class="gs-ylabels">
+      <span id="yTop">22</span>
+      <span id="yMid">11</span>
+      <span id="yBottom">0</span>
     </div>
+
+    <div class="bars" id="bars"></div>
   </div>
+
+  <div class="years" id="years"></div>
+</div>
 
   <script>
     fetch('data/scholar.json')
