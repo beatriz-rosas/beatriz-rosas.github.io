@@ -67,36 +67,35 @@
         return response.json();
       })
       .then(data => {
-        document.getElementById('gsLink').href = data.profile_url;
-        document.getElementById('gsCitTotal').textContent = data.citations.total;
-        document.getElementById('gsCitSince').textContent = data.citations.since2021;
-        document.getElementById('gsHTotal').textContent = data.h_index.total;
-        document.getElementById('gsHSince').textContent = data.h_index.since2021;
-        document.getElementById('gsI10Total').textContent = data.i10_index.total;
-        document.getElementById('gsI10Since').textContent = data.i10_index.since2021;
-
-        const bars = document.getElementById('bars');
-        const years = document.getElementById('years');
-
         const max = Math.max(...data.citations_by_year.map(d => d.cites), 1);
 
-        data.citations_by_year.forEach(d => {
-          const barWrap = document.createElement('div');
-          barWrap.className = 'bar-wrap';
+// Para que el eje se vea como Scholar:
+// arriba = máximo redondeado
+// medio = mitad redondeada
+const yTopValue = Math.ceil(max / 2) * 2; 
+const yMidValue = Math.round(yTopValue / 2);
 
-          const bar = document.createElement('div');
-          bar.className = 'bar';
-          bar.style.height = `${(d.cites / max) * 180}px`;
-          bar.title = `${d.year}: ${d.cites}`;
+document.getElementById('yTop').textContent = yTopValue;
+document.getElementById('yMid').textContent = yMidValue;
+document.getElementById('yBottom').textContent = 0;
 
-          barWrap.appendChild(bar);
-          bars.appendChild(barWrap);
+      data.citations_by_year.forEach(d => {
+  const barWrap = document.createElement('div');
+  barWrap.className = 'bar-wrap';
 
-          const year = document.createElement('div');
-          year.className = 'year';
-          year.textContent = d.year;
-          years.appendChild(year);
-        });
+  const bar = document.createElement('div');
+  bar.className = 'bar';
+  bar.style.height = `${(d.cites / yTopValue) * 180}px`;
+  bar.title = `${d.year}: ${d.cites}`;
+
+  barWrap.appendChild(bar);
+  bars.appendChild(barWrap);
+
+  const year = document.createElement('div');
+  year.className = 'year';
+  year.textContent = d.year;
+  years.appendChild(year);
+});
       })
       .catch(error => {
         console.error('Error:', error);
