@@ -38,6 +38,10 @@ body {
   color: #6f6f6f;
 }
 
+.gs-chart-area {
+  margin-top: 10px;
+}
+
 .gs-plot {
   position: relative;
   height: 200px;
