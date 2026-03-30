@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Métricas académicas</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <div class="gs-card">
     <div class="gs-head">
       <div class="gs-title">Citado por</div>
-<a class="gs-cta" id="gsLink" href="https://scholar.google.com/citations?user=zyxmL44AAAAJ&hl=en" target="_blank" rel="noopener">VER TODO</a>    </div>
+      <a class="gs-cta" id="gsLink" href="#" target="_blank" rel="noopener">VER TODO</a>
+    </div>
 
     <table class="gs-table">
       <thead>
@@ -24,82 +24,102 @@
       <tbody>
         <tr>
           <td>Citas</td>
-          <td id="gsCitTotal">-</td>
-          <td id="gsCitSince">-</td>
+          <td id="gsCitTotal">—</td>
+          <td id="gsCitSince">—</td>
         </tr>
         <tr>
           <td>Índice h</td>
-          <td id="gsHTotal">-</td>
-          <td id="gsHSince">-</td>
+          <td id="gsHTotal">—</td>
+          <td id="gsHSince">—</td>
         </tr>
         <tr>
           <td>Índice i10</td>
-          <td id="gsI10Total">-</td>
-          <td id="gsI10Since">-</td>
+          <td id="gsI10Total">—</td>
+          <td id="gsI10Since">—</td>
         </tr>
       </tbody>
     </table>
 
-<div class="gs-chart-area">
-  <div class="gs-plot">
-    <div class="gs-grid gs-grid-top"></div>
-    <div class="gs-grid gs-grid-mid"></div>
-    <div class="gs-grid gs-grid-bottom"></div>
+    <div class="gs-chart-area">
+      <div class="gs-plot">
+        <div class="gs-grid gs-grid-top"></div>
+        <div class="gs-grid gs-grid-mid"></div>
+        <div class="gs-grid gs-grid-bottom"></div>
 
-    <div class="gs-ylabels">
-      <span id="yTop">22</span>
-      <span id="yMid">11</span>
-      <span id="yBottom">0</span>
+        <div class="gs-ylabels">
+          <span id="yTop">0</span>
+          <span id="yMid">0</span>
+          <span id="yBottom">0</span>
+        </div>
+
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <div class="years" id="years"></div>
     </div>
 
-    <div class="bars" id="bars"></div>
+    <div id="debug"></div>
   </div>
 
-  <div class="years" id="years"></div>
-  <div id="debug" style="margin-top:10px; font-size:12px; color:#b00020;"></div>
-</div>
-
   <script>
-    fetch('data/scholar.json')
+    fetch('./data/scholar.json')
       .then(response => {
         if (!response.ok) {
-          throw new Error('No se pudo cargar scholar.json');
+          throw new Error('No se pudo cargar data/scholar.json. Status: ' + response.status);
         }
         return response.json();
       })
       .then(data => {
-        const max = Math.max(...data.citations_by_year.map(d => d.cites), 1);
+        document.getElementById('debug').textContent = '';
 
-// Para que el eje se vea como Scholar:
-// arriba = máximo redondeado
-// medio = mitad redondeada
-const yTopValue = Math.ceil(max / 2) * 2; 
-const yMidValue = Math.round(yTopValue / 2);
+        document.getElementById('gsLink').href = data.profile_url || '#';
 
-document.getElementById('yTop').textContent = yTopValue;
-document.getElementById('yMid').textContent = yMidValue;
-document.getElementById('yBottom').textContent = 0;
+        document.getElementById('gsCitTotal').textContent = data.citations?.total ?? '—';
+        document.getElementById('gsCitSince').textContent = data.citations?.since2021 ?? '—';
 
-      data.citations_by_year.forEach(d => {
-  const barWrap = document.createElement('div');
-  barWrap.className = 'bar-wrap';
+        document.getElementById('gsHTotal').textContent = data.h_index?.total ?? '—';
+        document.getElementById('gsHSince').textContent = data.h_index?.since2021 ?? '—';
 
-  const bar = document.createElement('div');
-  bar.className = 'bar';
-  bar.style.height = `${(d.cites / yTopValue) * 180}px`;
-  bar.title = `${d.year}: ${d.cites} citas`;
+        document.getElementById('gsI10Total').textContent = data.i10_index?.total ?? '—';
+        document.getElementById('gsI10Since').textContent = data.i10_index?.since2021 ?? '—';
 
-  barWrap.appendChild(bar);
-  bars.appendChild(barWrap);
+        const bars = document.getElementById('bars');
+        const years = document.getElementById('years');
 
-  const year = document.createElement('div');
-  year.className = 'year';
-  year.textContent = d.year;
-  years.appendChild(year);
-});
+        bars.innerHTML = '';
+        years.innerHTML = '';
+
+        const series = data.citations_by_year || [];
+        const max = Math.max(...series.map(d => d.cites), 1);
+
+        const yTopValue = Math.ceil(max / 2) * 2;
+        const yMidValue = yTopValue / 2;
+
+        document.getElementById('yTop').textContent = yTopValue;
+        document.getElementById('yMid').textContent = yMidValue;
+        document.getElementById('yBottom').textContent = 0;
+
+        series.forEach(d => {
+          const barWrap = document.createElement('div');
+          barWrap.className = 'bar-wrap';
+
+          const bar = document.createElement('div');
+          bar.className = 'bar';
+          bar.style.height = `${(d.cites / yTopValue) * 180}px`;
+          bar.title = `${d.year}: ${d.cites} citas`;
+
+          barWrap.appendChild(bar);
+          bars.appendChild(barWrap);
+
+          const year = document.createElement('div');
+          year.className = 'year';
+          year.textContent = d.year;
+          years.appendChild(year);
+        });
       })
       .catch(error => {
-        console.error('Error:', error);
+        console.error(error);
+        document.getElementById('debug').textContent = error.message;
       });
   </script>
 </body>
