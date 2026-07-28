@@ -1,8 +1,8 @@
 {
   "profile_url": "https://scholar.google.com/citations?user=zyxmL44AAAAJ&hl=en",
   "citations": {
-    "total": 62,
-    "since2021": 58
+    "total": 63,
+    "since2021": 59
   },
   "h_index": {
     "total": 6,
@@ -19,7 +19,7 @@
     { "year": 2022, "cites": 8 },
     { "year": 2023, "cites": 3 },
     { "year": 2024, "cites": 16 },
-    { "year": 2025, "cites": 21 },
-    { "year": 2026, "cites": 7 }
+    { "year": 2025, "cites": 23 },
+    { "year": 2026, "cites": 6 }
   ]
 }
