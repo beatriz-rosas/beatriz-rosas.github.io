@@ -182,7 +182,7 @@ body {
   position: absolute;
   bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: (-50%);
   margin-bottom: 6px;
   background: #ffffff;
   color: #202124;
